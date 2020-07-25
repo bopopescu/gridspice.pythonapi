@@ -113,12 +113,12 @@ def root_install(accessKey, secretKey, key_name):
 	print(repr(steps) + "] Done starting instance.                                                  \n");
 	sys.stdout.flush();
 
-	# Generating Master API Key 
+	# Generating Main API Key 
 	steps += 1;
-	print(repr(steps) + "] Generating master api key:\n");
+	print(repr(steps) + "] Generating main api key:\n");
 	char_set = string.ascii_uppercase + string.ascii_lowercase + string.digits;
-	masterKey = ''.join(random.sample(char_set,50));
-	print("    " + masterKey + "\n");
+	mainKey = ''.join(random.sample(char_set,50));
+	print("    " + mainKey + "\n");
 
 	# Create config files on instance
 	steps += 1;
@@ -126,7 +126,7 @@ def root_install(accessKey, secretKey, key_name):
 	steps += 1;
 	command = "ssh -t -i ~/.ssh/" + key_name + " ec2-user@" + instance.public_dns_name + \
 				" python /home/ec2-user/.gridspice/setup.py " + accessKey + " " + \
-				secretKey + " " + masterKey + " " + key_name + " " + \
+				secretKey + " " + mainKey + " " + key_name + " " + \
 				"http://" + instance.public_dns_name + "/" + " " + bucket1 + " " + \
 				bucket2 + " " + bucket3;
 	os.system(command); 
@@ -142,7 +142,7 @@ def root_install(accessKey, secretKey, key_name):
 	  data += 'ACCESS_KEY = ' + '"' + accessKey + '"\n';
 	  data += 'SECRET_KEY = ' + '"' + secretKey + '"\n';
 	  data += 'IMAGE_ID = ' + '"' + imageObject.name + '"\n';
-	  data += 'MASTER_KEY = ' + '"' + masterKey + '"\n';
+	  data += 'MASTER_KEY = ' + '"' + mainKey + '"\n';
 	  data += 'SSH_LOCATION = ' + '"' + '~/.ssh/' + key_name + '"\n';
 
 	with open('gridspice/config.py', 'w') as file:
